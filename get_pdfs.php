@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json");
 
-$conn = new mysqli("localhost", "root", "root", "pdf_database");
+$conn = new mysqli("localhost", "telecomanda", "1324", "pdf_database");
 
 if ($conn->connect_error) {
     die(json_encode(["error" => "Connection failed"]));

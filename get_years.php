@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "root", "root", "pdf_database");
+$conn = new mysqli("localhost", "telecomanda", "1324", "pdf_database");
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
 
 $category = $_GET['category'];
