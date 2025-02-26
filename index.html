@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Category</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        async function loadCategories() {
+            let response = await fetch("get_categories.php");
+            let categories = await response.json();
+            let container = document.getElementById("categories");
+
+            const colors = {
+                "Matematica": "#e65c5c", "Limba si literatura romana": "#5c8dd6", "Informatica": "#5eb3b8",
+                "Biologie": "#8a51b5", "Chimie": "#9e504c", "Fizica": "#db4d99",
+                "Logica": "#b58051", "Istorie": "#cdcf5d", "Geografie": "#62b054"
+            };
+
+            categories.forEach(category => {
+                let card = document.createElement("div");
+                card.className = "card";
+                card.style.backgroundColor = colors[category] || "#666";
+
+                let title = document.createElement("h2");
+                title.innerText = category;
+
+                card.appendChild(title);
+                card.onclick = () => {
+                    localStorage.setItem("selectedCategory", category);
+                    window.location.href = "years.html";
+                };
+                container.appendChild(card);
+            });
+        }
+
+        window.onload = loadCategories;
+    </script>
+</head>
+<body>
+    <div class="header-container">
+        <h1 class="title">Bun venit pe SUB-BAC</h1>
+        <h3 class="subtitle">Site-ul unde poti accesa orice subiect de bac valabil in format PDF</h3>
+        <p class="subtitle">Pentru a accesa subiectele, alege una din materiile de mai jos:</p>  
+    </div>
+    <div id="categories" class="grid-container"></div>
+</body>
+</html>

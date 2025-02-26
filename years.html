@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Year</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        async function loadYears() {
+            let category = localStorage.getItem("selectedCategory");
+            document.getElementById("title").innerText = `Alege anul subiectelor de ${category}`;
+
+            let response = await fetch(`get_years.php?category=${category}`);
+            let years = await response.json();
+            let container = document.getElementById("years");
+
+            years.forEach(year => {
+                let card = document.createElement("div");
+                card.className = "card year-card";
+                card.innerText = year;
+
+                card.onclick = () => {
+                    localStorage.setItem("selectedYear", year);
+                    window.location.href = "pdfs.html";
+                };
+
+                container.appendChild(card);
+            });
+        }
+
+        window.onload = loadYears;
+    </script>
+</head>
+<body>
+    <div class="header-container">
+        <h1 id="title" class="title">Alege anul</h1>
+        <p id="subtitle" class="subtitle">Vor fi afisate toate subiectele din anul pe care il alegi mai jos</p>
+    </div>
+    
+    <div id="years" class="grid-container"></div>
+</body>
+</html>

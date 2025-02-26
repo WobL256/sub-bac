@@ -1,0 +1,15 @@
+<?php
+$conn = new mysqli("localhost", "root", "root", "pdf_database");
+if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+
+$sql = "SELECT DISTINCT category FROM pdf_files";
+$result = $conn->query($sql);
+
+$categories = [];
+while ($row = $result->fetch_assoc()) {
+    $categories[] = $row['category'];
+}
+
+echo json_encode($categories);
+$conn->close();
+?>

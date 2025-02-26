@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select PDF</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        async function loadPDFs() {
+            let category = localStorage.getItem("selectedCategory");
+            let year = localStorage.getItem("selectedYear");
+            document.getElementById("title").innerText = `Subiecte ${category} - ${year}`;
+
+            let response = await fetch(`get_pdfs.php?category=${category}&year=${year}`);
+            let pdfData = await response.json();
+            let container = document.getElementById("pdf-container");
+
+            Object.keys(pdfData).forEach(subcat1 => {
+                let subcat1Div = document.createElement("div");
+                subcat1Div.className = "big-card";
+                subcat1Div.innerHTML = `<h2>${subcat1}</h2>`;
+
+                Object.keys(pdfData[subcat1]).forEach(subcat2 => {
+                    let subcat2Div = document.createElement("div");
+                    subcat2Div.className = "medium-card";
+                    subcat2Div.innerHTML = `<p>${subcat2}</p>`;
+
+                    let pdfListDiv = document.createElement("div");
+                    pdfListDiv.className = "pdf-list";
+
+                    pdfData[subcat1][subcat2].forEach(pdf => {
+                        let pdfCard = document.createElement("div");
+                        pdfCard.className = "pdf-card";
+
+                        let link = document.createElement("a");
+                        link.innerText = pdf.filename;
+                        link.href = pdf.filepath;
+                        link.target = "_blank";
+
+                        pdfCard.appendChild(link);
+                        pdfListDiv.appendChild(pdfCard);
+                    });
+
+                    subcat2Div.appendChild(pdfListDiv);
+                    subcat1Div.appendChild(subcat2Div);
+                });
+
+                container.appendChild(subcat1Div);
+            });
+        }
+
+        window.onload = loadPDFs;
+    </script>
+</head>
+<body>
+    <h1 id="title">Select a PDF</h1>
+    <p>Acestea sunt toate subiectele din anul selectat</p>
+    <div id="pdf-container"></div>
+</body>
+</html>
