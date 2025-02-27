@@ -115,7 +115,7 @@ h1, h2, h3 {
 /* Medium Cards for Subcat2 */
 .medium-card {
     width: 90%;
-    margin: 0px auto;
+    margin: 0px;
     padding-top: 5px;
     padding-bottom: 15px;
     background-color: #e5e5e5;
